@@ -37,6 +37,7 @@ This is a static site—no build tools required.
    git clone https://github.com/helberjf/site-gym.git
    cd site-gym
 Open index.html in your browser.
+
 Credits
 
 getbootstrap.com
