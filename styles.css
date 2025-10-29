@@ -99,7 +99,8 @@ body {
 }
 
 .carousel-image {
-    height: 450px;
+    height: 128px;
+    width: 128px;
     object-fit: cover;
     border-radius: 15px;
 }
