@@ -468,3 +468,17 @@ document.head.appendChild(alertStyles);
   };
 
   renderWalletBrick(bricksBuilder);
+//
+const preference = new Preference(client);
+  preference.create({
+    body: {
+      // ...
+      back_urls: {
+        success: "https://site-gym-weld.vercel.app/success",
+        failure: "https://site-gym-weld.vercel.app/failure",
+        pending: "https://site-gym-weld.vercel.app/pending"
+      },
+      auto_return: "approved",
+    }
+  })
+  // ...
