@@ -447,3 +447,24 @@ alertStyles.textContent = `
 `;
 document.head.appendChild(alertStyles);
 
+// adicionar pagamento via mercadopago
+
+// Configure sua chave pública do Mercado Pago
+  const publicKey = "APP_USR-b2f576ee-745b-454e-af2e-adf3c19a80bf";
+  // Configure o ID de preferência que você deve receber do seu backend
+  const preferenceId = "#5870563570";
+
+  // Inicializa o SDK do Mercado Pago
+  const mp = new MercadoPago(publicKey);
+
+  // Cria o botão de pagamento
+  const bricksBuilder = mp.bricks();
+  const renderWalletBrick = async (bricksBuilder) => {
+    await bricksBuilder.create("wallet", "walletBrick_container", {
+      initialization: {
+        preferenceId: "<PREFERENCE_ID>",
+      }
+});
+  };
+
+  renderWalletBrick(bricksBuilder);
