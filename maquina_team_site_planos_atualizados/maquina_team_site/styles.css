@@ -390,14 +390,15 @@ body {
 .plan-options {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 2.5rem;
 }
 
 .plan-option {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 1.5rem;
+    padding: auto;
     background: var(--light-gray);
     border-radius: 15px;
     transition: all 0.3s ease;
