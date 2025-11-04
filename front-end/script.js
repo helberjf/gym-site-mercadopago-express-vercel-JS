@@ -529,9 +529,23 @@ function renderMercadoPagoBrick(preferenceId, productId, fallbackUrl) {
         const container = containerId ? document.getElementById(containerId) : null;
         if (!container) {
             console.error('Container not found for product_id:', productId);
+            // Se não encontrar container mas tiver fallback, redirecionar
+            if (fallbackUrl) {
+                window.location.href = fallbackUrl;
+            }
             return;
         }
         container.innerHTML = '';
+
+        // Adicionar botão de fallback caso o brick não funcione
+        if (fallbackUrl) {
+            const fallbackBtn = document.createElement('a');
+            fallbackBtn.href = fallbackUrl;
+            fallbackBtn.className = 'btn btn-primary btn-block mt-2';
+            fallbackBtn.textContent = 'Ir para Pagamento';
+            fallbackBtn.style.cssText = 'display: block; margin-top: 10px;';
+            container.appendChild(fallbackBtn);
+        }
 
         bricksBuilder.create('wallet', containerId, {
             initialization: {
@@ -541,13 +555,18 @@ function renderMercadoPagoBrick(preferenceId, productId, fallbackUrl) {
             console.log('Mercado Pago brick rendered for product', productId);
         }).catch(err => {
             console.error('Error rendering MP brick', err);
+            // Se o brick falhar, mostrar botão de fallback
             if (fallbackUrl) {
-                container.innerHTML = `<a class="btn btn-outline-primary" href="${fallbackUrl}" target="_blank">Pagar (abrir checkout)</a>`;
+                container.innerHTML = `<a class="btn btn-primary btn-block" href="${fallbackUrl}" style="display: block; margin-top: 10px;">Ir para Pagamento no Mercado Pago</a>`;
             }
         });
 
     } catch (err) {
         console.error('MP render error', err);
+        // Em caso de erro, redirecionar diretamente
+        if (fallbackUrl) {
+            window.location.href = fallbackUrl;
+        }
     }
 }
 
@@ -562,22 +581,37 @@ document.addEventListener('click', function (e) {
         return;
     }
 
+    // Desabilitar botão e mostrar loading
+    btn.disabled = true;
+    const originalText = btn.textContent;
+    btn.textContent = 'Processando...';
+
     // Create preference on backend
     createPreferenceOnBackend(productId)
         .then(data => {
             const prefId = data?.preference_id;
             const initPoint = data?.preference_url;
-            if (prefId) {
-                renderMercadoPagoBrick(prefId, productId, initPoint);
-            } else if (initPoint) {
-                // fallback redirect to checkout
+            
+            if (initPoint) {
+                // Redirecionar diretamente para o checkout do Mercado Pago
+                console.log('Redirecting to Mercado Pago checkout:', initPoint);
                 window.location.href = initPoint;
+            } else if (prefId) {
+                // Se não tiver init_point mas tiver preference_id, usar o brick
+                renderMercadoPagoBrick(prefId, productId, initPoint);
+                // Restaurar botão
+                btn.disabled = false;
+                btn.textContent = originalText;
             } else {
                 showAlert('Não foi possível iniciar o pagamento', 'error');
+                btn.disabled = false;
+                btn.textContent = originalText;
             }
         })
         .catch(err => {
             console.error(err);
             showAlert('Erro ao iniciar pagamento: ' + (err.message || err), 'error');
+            btn.disabled = false;
+            btn.textContent = originalText;
         });
 });
