@@ -448,77 +448,24 @@ alertStyles.textContent = `
 document.head.appendChild(alertStyles);
 
 // adicionar pagamento via mercadopago
-// Configuração do Mercado Pago
-const BACKEND_URL = 'http://localhost:8080'; // Ajuste para a URL correta em produção
-const PUBLIC_KEY = "APP_USR-b2f576ee-745b-454e-af2e-adf3c19a80bf";
 
-// Função para criar preferência de pagamento
-async function createPaymentPreference() {
-    try {
-        showAlert('Processando pagamento...', 'info');
-        
-        const response = await fetch(`${BACKEND_URL}/create-preference`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
+// Configure sua chave pública do Mercado Pago
+  const publicKey = "APP_USR-b2f576ee-745b-454e-af2e-adf3c19a80bf";
+  // Configure o ID de preferência que você deve receber do seu backend
+  const preferenceId = "1772591489790650";
 
-        if (!response.ok) {
-            throw new Error('Erro ao criar preferência de pagamento');
-        }
+  // Inicializa o SDK do Mercado Pago
+  const mp = new MercadoPago(publicKey);
 
-        const data = await response.json();
-        return data.preference_id;
-    } catch (error) {
-        console.error('Erro:', error);
-        showAlert('Erro ao processar pagamento. Tente novamente.', 'error');
-        throw error;
-    }
-}
-
-// Função para inicializar o botão do Mercado Pago
-async function initMercadoPago() {
-    try {
-        // Inicializa o SDK do Mercado Pago
-        const mp = new MercadoPago(PUBLIC_KEY);
-        const bricksBuilder = mp.bricks();
-
-        // Obtém o ID de preferência do backend
-        const preferenceId = await createPaymentPreference();
-
-        // Cria o botão de pagamento
-        await bricksBuilder.create("wallet", "walletBrick_container", {
-            initialization: {
-                preferenceId: preferenceId
-            },
-            callbacks: {
-                onError: (error) => {
-                    console.error('Erro no brick do MP:', error);
-                    showAlert('Erro ao carregar opções de pagamento.', 'error');
-                },
-                onReady: () => {
-                    showAlert('Pronto para pagamento!', 'success');
-                }
-            }
-        });
-    } catch (error) {
-        console.error('Erro ao inicializar MP:', error);
-        showAlert('Não foi possível inicializar o pagamento.', 'error');
-    }
-}
-
-// Adicionar listener para botões de plano que iniciam pagamento
-document.querySelectorAll('.btn-plan').forEach(button => {
-    button.addEventListener('click', async function(e) {
-        e.preventDefault();
-        
-        // Inicializa o processo de pagamento
-        try {
-            await initMercadoPago();
-        } catch (error) {
-            console.error('Erro ao iniciar pagamento:', error);
-            showAlert('Erro ao iniciar pagamento. Tente novamente.', 'error');
-        }
-    });
+  // Cria o botão de pagamento
+  const bricksBuilder = mp.bricks();
+  const renderWalletBrick = async (bricksBuilder) => {
+    await bricksBuilder.create("wallet", "walletBrick_container", {
+      initialization: {
+        preferenceId: "<PREFERENCE_ID>",
+      }
 });
+  };
+
+  renderWalletBrick(bricksBuilder);
+//

@@ -447,44 +447,104 @@ alertStyles.textContent = `
 `;
 document.head.appendChild(alertStyles);
 
-// adicionar pagamento via mercadopago
+// Payment integration: frontend sends only the plan number (product id) to the backend.
+// Backend is authoritative for plan totals (see server-side PLAN_PRICES mapping).
+// Replace the placeholder below with your Mercado Pago publishable key before testing in sandbox/production.
+const publicKey = 'APP_USR-b2f576ee-745b-454e-af2e-adf3c19a80bf';
 
-// Configure sua chave pública do Mercado Pago
-  const publicKey = "APP_USR-b2f576ee-745b-454e-af2e-adf3c19a80bf";
-  // Configure o ID de preferência que você deve receber do seu backend
-  const preferenceId = "2954028260-a7ae4aba-ef74-49b0-a1cf-bf786a376de0";
+function createPreferenceOnBackend(productId) {
+    const payload = {
+        product_id: productId,
+        title: `Plano ${productId.replace('plan_', '')}`,
+    };
 
-  // Inicializa o SDK do Mercado Pago
-  const mp = new MercadoPago(publicKey);
+    return fetch('/api/create-preference', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+    }).then(async (res) => {
+        if (!res.ok) {
+            const text = await res.text();
+            throw new Error(`Erro ao criar preferência: ${res.status} ${text}`);
+        }
+        return res.json();
+    });
+}
 
-  // Cria o botão de pagamento
-  const bricksBuilder = mp.bricks();
-  const renderWalletBrick = async (bricksBuilder) => {
-    await bricksBuilder.create("wallet", "walletBrick_container", {
-      initialization: {
-        preferenceId: "<PREFERENCE_ID>",
-      }
-});
-  };
+function renderMercadoPagoBrick(preferenceId, productId, fallbackUrl) {
+        try {
+            if (!publicKey || publicKey === 'APP_USR-b2f576ee-745b-454e-af2e-adf3c19a80bfY') {
+                console.warn('Mercado Pago public key not configured. Set window.MP_PUBLIC_KEY or a meta[name="mp-public-key"].');
+            }
+            const mp = new MercadoPago(publicKey);
+        const bricksBuilder = mp.bricks();
+        // Map product_id to existing container IDs in HTML
+        const containerMap = {
+            'plan_1': 'mp_brick_monthly_1x',
+            'plan_2': 'mp_brick_monthly_2x',
+            'plan_3': 'mp_brick_monthly_3x',
+            'plan_4': 'mp_brick_semiannual_1x',
+            'plan_5': 'mp_brick_semiannual_2x',
+            'plan_6': 'mp_brick_semiannual_3x',
+            'plan_7': 'mp_brick_annual_1x',
+            'plan_8': 'mp_brick_annual_2x',
+            'plan_9': 'mp_brick_annual_3x',
+            'plan_10': 'mp_brick_full_regular',
+            'plan_11': 'mp_brick_full_social'
+        };
+        const containerId = containerMap[productId];
+        const container = containerId ? document.getElementById(containerId) : null;
+        if (!container) {
+            console.error('Container not found for product_id:', productId);
+            return;
+        }
+        container.innerHTML = '';
 
-  renderWalletBrick(bricksBuilder);
-//
-const preference = new Preference(client);
-  preference.create({
-    body: {
-       items: [
-      {
-        title: 'Meu produto',
-        quantity: 1,
-        unit_price: 20
-      }],
-      back_urls: {
-        success: "https://site-gym-weld.vercel.app/success",
-        failure: "https://site-gym-weld.vercel.app/failure",
-        pending: "https://site-gym-weld.vercel.app/pending"
-      },
-      auto_return: "approved",
+        bricksBuilder.create('wallet', containerId, {
+            initialization: {
+                preferenceId,
+            }
+        }).then(() => {
+            console.log('Mercado Pago brick rendered for product', productId);
+        }).catch(err => {
+            console.error('Error rendering MP brick', err);
+            if (fallbackUrl) {
+                container.innerHTML = `<a class="btn btn-outline-primary" href="${fallbackUrl}" target="_blank">Pagar (abrir checkout)</a>`;
+            }
+        });
+
+    } catch (err) {
+        console.error('MP render error', err);
     }
-  })
- .then(console.log)
- .catch(console.log);
+}
+
+// Attach click handlers to payment buttons
+document.addEventListener('click', function (e) {
+    const btn = e.target.closest('.btn-payment');
+    if (!btn) return;
+    e.preventDefault();
+    const productId = btn.getAttribute('data-product-id');
+    if (!productId) {
+        showAlert('Plano não identificado', 'error');
+        return;
+    }
+
+    // Create preference on backend
+    createPreferenceOnBackend(productId)
+        .then(data => {
+            const prefId = data?.preference_id;
+            const initPoint = data?.preference_url;
+            if (prefId) {
+                renderMercadoPagoBrick(prefId, productId, initPoint);
+            } else if (initPoint) {
+                // fallback redirect to checkout
+                window.location.href = initPoint;
+            } else {
+                showAlert('Não foi possível iniciar o pagamento', 'error');
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            showAlert('Erro ao iniciar pagamento: ' + (err.message || err), 'error');
+        });
+});

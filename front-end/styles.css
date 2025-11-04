@@ -1105,3 +1105,22 @@ html {
         border: 1px solid var(--accent-gold);
     }
 }
+
+/* Payment button and MP container styles */
+.btn-payment {
+    background: var(--accent-gold);
+    color: var(--primary-dark);
+    font-weight: 700;
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    width: 100%;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-top: 0.75rem;
+}
+.btn-payment:hover { background: var(--accent-red); color: #fff; }
+
+.payment-info { font-size: 0.95rem; color: var(--medium-gray); margin-top: 0.5rem; }
+
+.mp-button-container { margin-top: 1rem; display: none; }
+.mp-button-container.active { display: block; }

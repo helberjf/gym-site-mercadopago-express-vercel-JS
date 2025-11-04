@@ -254,6 +254,8 @@
                 <div class="col-12 text-center mb-5">
                     <h2 class="section-title">Nossos Planos</h2>
                     <p class="section-subtitle">Escolha qual é o ideal para você!</p>
+                    <!-- Container global do Brick (pode existir só um) -->
+                    <div id="walletBrick_container"></div>
                 </div>
             </div>
             
@@ -270,23 +272,24 @@
                                 <div class="plan-option">
                                     <span class="frequency">1x na Semana</span>
                                     <span class="price">R$ 129,00</span>
-                                    <!-- Container para o botão de pagamento -->
-                                    <div id="walletBrick_container"></div>
+                                    <div class="payment-info">Cobrança: 1 mês (R$ 129,00)</div>
+                                    <button class="btn btn-primary btn-payment" data-product-id="plan_1">Contratar Plano</button>
+                                    <div id="mp_brick_monthly_1x" class="mp-button-container"></div>
                                 </div>
                                 <div class="plan-option">
-                                    <div>
-                                        <span class="frequency">2x na Semana</span>
-                                        <span class="price">R$ 159,00</span>
-                                    </div>
-                                    <!-- Container para o botão de pagamento -->
-                                    <div id="walletBrick_container"></div>
+                                    <span class="frequency">2x na Semana</span>
+                                    <span class="price">R$ 159,00</span>
+                                    <div class="payment-info">Cobrança: 1 mês (R$ 159,00)</div>
+                                    <button class="btn btn-primary btn-payment" data-product-id="plan_2">Contratar Plano</button>
+                                    <div id="mp_brick_monthly_2x" class="mp-button-container"></div>
                                 </div>
                                 <div class="plan-option plan-option-featured">
                                     <span class="frequency">3x na Semana</span>
                                     <span class="price">R$ 179,00</span>
                                     <span class="badge-popular">MAIS</span>
-                                    <!-- Container para o botão de pagamento -->
-                                    <div id="walletBrick_container"></div>
+                                    <div class="payment-info">Cobrança: 1 mês (R$ 179,00)</div>
+                                    <button class="btn btn-primary btn-payment" data-product-id="plan_3">Contratar Plano</button>
+                                    <div id="mp_brick_monthly_3x" class="mp-button-container"></div>
                                 </div>
                             </div>
                         </div>
@@ -306,22 +309,25 @@
                             <div class="plan-options">
                                 <div class="plan-option">
                                     <span class="frequency">1x na Semana</span>
-                                    <span class="price">R$ 119,00</span>
-                                    <!-- Container para o botão de pagamento -->
-                                    <div id="walletBrick_container"></div>
+                                    <span class="price">R$ 119,00 /mês</span>
+                                    <div class="payment-info">Total a cobrar: R$ 714,00 (6 meses)</div>
+                                    <button class="btn btn-primary btn-payment" data-product-id="plan_4">Contratar Plano</button>
+                                    <div id="mp_brick_semiannual_1x" class="mp-button-container"></div>
                                 </div>
                                 <div class="plan-option">
                                     <span class="frequency">2x na Semana</span>
-                                    <span class="price">R$ 143,00</span>
-                                    <!-- Container para o botão de pagamento -->
-                                    <div id="walletBrick_container"></div>
+                                    <span class="price">R$ 143,00 /mês</span>
+                                    <div class="payment-info">Total a cobrar: R$ 858,00 (6 meses)</div>
+                                    <button class="btn btn-primary btn-payment" data-product-id="plan_5">Contratar Plano</button>
+                                    <div id="mp_brick_semiannual_2x" class="mp-button-container"></div>
                                 </div>
                                 <div class="plan-option plan-option-featured">
                                     <span class="frequency">3x na Semana</span>
-                                    <span class="price">R$ 163,00</span>
+                                    <span class="price">R$ 163,00 /mês</span>
                                     <span class="badge-popular">MAIS</span>
-                                    <!-- Container para o botão de pagamento -->
-                                    <div id="walletBrick_container"></div>
+                                    <div class="payment-info">Total a cobrar: R$ 978,00 (6 meses)</div>
+                                    <button class="btn btn-primary btn-payment" data-product-id="plan_6">Contratar Plano</button>
+                                    <div id="mp_brick_semiannual_3x" class="mp-button-container"></div>
                                 </div>
                             </div>
                         </div>
@@ -341,22 +347,25 @@
                             <div class="plan-options">
                                 <div class="plan-option">
                                     <span class="frequency">1x na Semana</span>
-                                    <span class="price">R$ 109,00</span>
-                                    <!-- Container para o botão de pagamento -->
-                                    <div id="walletBrick_container"></div>
+                                    <span class="price">R$ 109,00 /mês</span>
+                                    <div class="payment-info">Total a cobrar: R$ 1.308,00 (12 meses)</div>
+                                    <button class="btn btn-primary btn-payment" data-product-id="plan_7">Contratar Plano</button>
+                                    <div id="mp_brick_annual_1x" class="mp-button-container"></div>
                                 </div>
                                 <div class="plan-option">
                                     <span class="frequency">2x na Semana</span>
-                                    <span class="price">R$ 119,00</span>
-                                    <!-- Container para o botão de pagamento -->
-                                    <div id="walletBrick_container"></div>
+                                    <span class="price">R$ 119,00 /mês</span>
+                                    <div class="payment-info">Total a cobrar: R$ 1.428,00 (12 meses)</div>
+                                    <button class="btn btn-primary btn-payment" data-product-id="plan_8">Contratar Plano</button>
+                                    <div id="mp_brick_annual_2x" class="mp-button-container"></div>
                                 </div>
                                 <div class="plan-option plan-option-featured">
                                     <span class="frequency">3x na Semana</span>
-                                    <span class="price">R$ 149,00</span>
+                                    <span class="price">R$ 149,00 /mês</span>
+                                    <div class="payment-info">Total a cobrar: R$ 1.788,00 (12 meses)</div>
                                     <span class="badge-popular">MAIS</span>
-                                    <!-- Container para o botão de pagamento -->
-                                    <div id="walletBrick_container"></div>
+                                    <button class="btn btn-primary btn-payment" data-product-id="plan_9">Contratar Plano</button>
+                                    <div id="mp_brick_annual_3x" class="mp-button-container"></div>
                                 </div>
                             </div>
                         </div>
@@ -389,6 +398,9 @@
                                             <span class="amount">250</span>
                                             <span class="period">/mês</span>
                                         </div>
+                                        <div class="payment-info">Cobrança: 1 mês (R$ 250,00)</div>
+                                        <button class="btn btn-primary btn-payment" data-product-id="plan_10">Contratar Plano FULL</button>
+                                        <div id="mp_brick_full_regular" class="mp-button-container"></div>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 mb-3">
@@ -402,6 +414,9 @@
                                             <span class="amount">185</span>
                                             <span class="period">/mês</span>
                                         </div>
+                                        <div class="payment-info">Cobrança: 1 mês (R$ 185,00)</div>
+                                        <button class="btn btn-primary btn-payment" data-product-id="plan_11">Contratar com Desconto</button>
+                                        <div id="mp_brick_full_social" class="mp-button-container"></div>
                                     </div>
                                 </div>
                             </div>
