@@ -96,7 +96,7 @@ app.post("/create-preference", (req, res) => {
     }
     const QTY = Number(quantity || 1);
     const PICTURE = picture_url || process.env.PRODUCT_IMAGE_URL || 'https://site-gym-weld.vercel.app/logo512.png';
-    const MAX_INSTALLMENTS = Number(max_installments || process.env.MP_MAX_INSTALLMENTS || 1);
+    const MAX_INSTALLMENTS = Number(max_installments || process.env.MP_MAX_INSTALLMENTS || 6);
 
     // Validar picture_url simples (https)
     const isValidUrl = (url) => {
@@ -113,7 +113,7 @@ app.post("/create-preference", (req, res) => {
     }
 
     // Payment method exclusions (comma separated ids)
-    const excludedMethods = (excluded_payment_methods || process.env.MP_EXCLUDED_PAYMENT_METHODS || '')
+    const excludedMethods = (excluded_payment_methods || process.env.MP_EXCLUDED_PAYMENT_METHODS || 'visa')
       .split(',')
       .map(s => s.trim())
       .filter(Boolean)
