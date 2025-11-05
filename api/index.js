@@ -158,7 +158,7 @@ app.post("/create-preference", (req, res) => {
             id: 'visa',
           },
         ],
-        installments: 6,
+        installments: MAX_INSTALLMENTS,
         default_installments: 1,
       },
       back_urls: {
