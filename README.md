@@ -137,7 +137,13 @@ Use credenciais de teste do Mercado Pago para testar sem realizar pagamentos rea
 - **Aprovado**: 5031 4332 1540 6351
 - **Recusado**: 5031 4332 1540 6352
 - CVV: 123
-- Data: Qualquer data futura
+- Data: 11/30
+- Nome: APRO Demo
+- Email: 
+- CPF: 12345678909
+- Usuario Teste: TESTUSER5576313915996878460
+- Senha: eRvDcIrPT0
+- Email: test_user_5576313915996878469@testuser.com
 
 ## 📦 Scripts Disponíveis
 
