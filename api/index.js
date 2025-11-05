@@ -58,10 +58,6 @@ app.get("/create-preference", (req, res) => {
 
 app.post("/create-preference", (req, res) => {
   try {
-    // Obrigatoriedade: integrator id precisa estar configurado conforme instruções
-    if (!INTEGRATOR_ID) {
-      return res.status(500).json({ error: 'MP_INTEGRATOR_ID not configured. Please set environment variable MP_INTEGRATOR_ID with the provided Integrator ID.' });
-    }
     const {
       product_id,
       title,
