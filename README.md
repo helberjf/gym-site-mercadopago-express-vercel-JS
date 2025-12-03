@@ -1,5 +1,5 @@
 # Maquina Team - Site de Academia de Lutas
-
+https://site-gym-test.vercel.app/
 Site institucional da Maquina Team com integração de pagamentos via Mercado Pago.
 
 ## 🚀 Tecnologias
